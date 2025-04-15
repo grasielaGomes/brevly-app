@@ -10,7 +10,8 @@
     "moduleResolution": "NodeNext",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "allowImportingTsExtensions": true,
-    "noEmit": true
-  }
+    "noEmit": false, // Emitir arquivos para o build multi-stage
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*"]
 }
