@@ -22,4 +22,4 @@ USER 1000
 
 EXPOSE 3333
 
-CMD ["./dist/index.js"]
+CMD ["sh", "-c", "pnpm prisma migrate deploy && node ./dist/index.js"]
