@@ -10,12 +10,14 @@
     "moduleResolution": "NodeNext",
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": false,
     "noEmit": false, // Emitir arquivos para o build multi-stage
     "outDir": "./dist",
     "rootDir": "./src",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": ["vitest/globals"]
   },
   "include": ["src/**/*"]
 }
