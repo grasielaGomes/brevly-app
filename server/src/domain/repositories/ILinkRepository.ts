@@ -23,10 +23,18 @@ export interface ILinkRepository {
   findAll(): Promise<Link[]>
 
   /**
+   * Retrieves a batch of link records, ordered by ID, for streaming exports.
+   * @param batchSize Number of records to retrieve in one batch.
+   * @param lastId The ID of the last record from the previous batch (exclusive).
+   * @returns An array of Link entities.
+   */
+  findBatch(batchSize: number, lastId?: number | null): Promise<Link[]>
+
+  /**
    * Deletes a link by its ID.
    * @param id The unique identifier of the link.
    */
-  delete(id: number): Promise<void>
+  deleteByShortUrl(shortUrl: string): Promise<void>
 
   /**
    * Increments the access count for the given short URL.
