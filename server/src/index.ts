@@ -1,44 +1,26 @@
 import Fastify from 'fastify'
-import fastifySwagger from '@fastify/swagger'
-import fastifyCors from '@fastify/cors'
-import ScalarUI from '@scalar/fastify-api-reference'
+import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { corsPlugin } from '@/plugins/cors'
+import { docsPlugin } from '@/plugins/docs'
+import { linkRoutes } from '@/routes/linkRoutes'
 
-const app = Fastify({ logger: true })
+export async function buildServer() {
+  const app = Fastify({ logger: true }).withTypeProvider<ZodTypeProvider>()
 
-app.register(fastifyCors, {
-  origin: '*',
-})
+  await app.register(corsPlugin)
+  await app.register(docsPlugin)
+  await app.register(linkRoutes)
 
-app.register(fastifySwagger, {
-  swagger: {
-    info: {
-      title: 'Brev.ly API',
-      description: 'API documentation for the Brev.ly URL shortening service',
-      version: '0.1.0',
-    },
-    host: 'localhost:3333',
-    schemes: ['http'],
-    consumes: ['application/json'],
-    produces: ['application/json'],
-  },
-})
+  app.get('/', async () => ({ message: 'Server is up and running!' }))
 
-app.register(ScalarUI, {
-  routePrefix: '/docs',
-})
-
-app.get('/', async (request, reply) => {
-  return { message: 'Server is up and running!' }
-})
-
-const start = async () => {
-  try {
-    await app.listen({ port: 3333 })
-    app.log.info('Server listening on port 3333')
-  } catch (err) {
-    app.log.error(err)
-    process.exit(1)
-  }
+  return app
 }
 
-start()
+if (require.main === module) {
+  buildServer()
+    .then((app) => app.listen({ port: 3333 }))
+    .catch((err) => {
+      console.error(err)
+      process.exit(1)
+    })
+}
