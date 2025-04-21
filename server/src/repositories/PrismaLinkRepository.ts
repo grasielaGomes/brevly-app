@@ -49,10 +49,25 @@ export class PrismaLinkRepository implements ILinkRepository {
     }))
   }
 
-  async delete(id: number): Promise<void> {
-    await prisma.link.delete({
-      where: { id },
+  async findBatch(batchSize: number, lastId?: number | null): Promise<Link[]> {
+    const whereClause =
+      lastId !== undefined && lastId !== null ? { id: { gt: lastId } } : {}
+    const records = await prisma.link.findMany({
+      where: whereClause,
+      orderBy: { id: 'asc' },
+      take: batchSize,
     })
+    return records.map((record) => ({
+      id: record.id,
+      originalUrl: record.originalUrl,
+      shortUrl: record.shortUrl,
+      accessCount: record.accessCount,
+      createdAt: record.createdAt,
+    }))
+  }
+
+  async deleteByShortUrl(shortUrl: string): Promise<void> {
+    await prisma.link.delete({ where: { shortUrl } })
   }
 
   async incrementAccessCount(shortUrl: string): Promise<void> {
