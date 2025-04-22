@@ -53,8 +53,8 @@ Works seamlessly with the [Brev.ly Web](../web/README.md) frontend for a complet
 
 1. **Clone** the repo:
    ```bash
-   git clone https://github.com/your-org/brevly-server.git
-   cd brevly-server
+   git clone https://github.com/grasielaGomes/brevly-app.git
+   cd server
    ```
 2. **Configure** environment variables:
    ```bash
@@ -82,7 +82,7 @@ CLOUDFLARE_ACCOUNT_ID=<your-account-id>
 CLOUDFLARE_ACCESS_KEY_ID=<key>
 CLOUDFLARE_ACCESS_KEY_SECRET=<secret>
 CLOUDFLARE_BUCKET=<bucket-name>
-PUBLIC_URL=https://<account>.r2.cloudflarestorage.com/<bucket>
+PUBLIC_URL=https://<account>.r2.cloudflarestorage.com
 ```
 
 ---
