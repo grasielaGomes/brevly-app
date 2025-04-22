@@ -1,157 +1,140 @@
 # Brev.ly - Server
 
-This is the **backend** (Server) repository for the Brev.ly project, a URL shortening application.  
-It provides a RESTful API to create, list, delete, and redirect shortened URLs, as well as generate CSV reports.
+This is the **backend** (Server) repository for the Brev.ly project, a URL shortening application.
+Provides a RESTful API to create, list, delete, redirect shortened URLs, and generate CSV reports uploaded to Cloudflare R2.
 
 ## Table of Contents
 
 - [Overview](#overview)
 - [Features](#features)
 - [Requirements](#requirements)
-- [Installation](#installation)
+- [Quick Start](#quick-start)
 - [Configuration](#configuration)
 - [Scripts](#scripts)
-- [API Endpoints](#api-endpoints)
 - [Docker](#docker)
-- [Contributing](#contributing)
-- [License](#license)
+- [API Endpoints](#api-endpoints)
 
 ---
 
 ## Overview
 
-Brev.ly Server is responsible for:
+Brev.ly Server handles:
 
-- Managing URL creation, validation, and duplication checks.
-- Handling link deletions and redirections.
-- Tracking access counts for each shortened link.
-- Generating CSV reports and uploading them to a CDN (e.g., S3 or Cloudflare R2).
+- URL creation, validation, and duplication checks
+- Link deletion and redirection with access count increment
+- Listing all stored URLs
+- Generating CSV reports and uploading to Cloudflare R2
 
-It can be used in conjunction with the [Brev.ly Web](../web/README.md) project to provide a full user interface.
+Works seamlessly with the [Brev.ly Web](../web/README.md) frontend for a complete solution.
 
 ---
 
 ## Features
 
-- **Create Shortened URL**: Validates format and avoids duplicates.
-- **Delete URL**: Removes a previously created shortened URL from the system.
-- **Redirect**: Retrieves the original URL based on the short link and optionally increments access count.
-- **List All URLs**: Returns all URLs stored in the database.
-- **CSV Export**: Generates CSV files with detailed link information (short URL, original URL, access count, creation date) and uploads them to a CDN.
+- **Create Shortened URL**: Custom slugs, format validation, duplicate prevention.
+- **Delete URL**: Remove links by slug.
+- **Redirect**: 302 redirect to original URL and track access counts.
+- **List URLs**: Retrieve all stored links.
+- **CSV Export**: Batch-export link data to CSV, uploaded to R2.
+- **OpenAPI Docs**: Interactive docs at `/docs` via Scalar UI and openapi-zod.
 
 ---
 
 ## Requirements
 
-- **Node.js**: v18 or higher
-- **pnpm**: v10.8.0 or higher
-- **PostgreSQL**: v14 or higher
-- **Cloudflare R2** (or compatible S3 storage) for CSV uploads
+- Node.js v18+
+- pnpm v7+
+- PostgreSQL v14+
+- Cloudflare R2 (or S3-compatible) for CSV storage
 
 ---
 
-## Installation
+## Quick Start
 
-1. Clone the repository:
-
+1. **Clone** the repo:
    ```bash
    git clone https://github.com/your-org/brevly-server.git
    cd brevly-server
    ```
-
-2. Install dependencies:
-
+2. **Configure** environment variables:
+   ```bash
+   cp .env.example .env
+   # edit .env with your DB and R2 credentials
+   ```
+3. **Local dev**:
    ```bash
    pnpm install
+   pnpm prisma migrate dev
+   pnpm dev
    ```
-
-3. Set up the environment variables:
-
-   - Copy `.env.example` to `.env` and configure the values.
-
-4. Run database migrations:
-   ```bash
-   npx prisma migrate dev
-   ```
+4. Visit `http://localhost:3333/docs` for API documentation.
 
 ---
 
 ## Configuration
 
-The application uses environment variables for configuration. Below are the key variables:
+Environment variables (see `.env.example`):
 
-- `DATABASE_URL`: Connection string for the PostgreSQL database.
-- `PORT`: The port number on which the server will run.
-- `CLOUDFLARE_ACCOUNT_ID`: Cloudflare account ID for accessing R2 storage.
-- `CLOUDFLARE_ACCESS_KEY_ID`: Access key for Cloudflare R2.
-- `CLOUDFLARE_ACCESS_KEY_ID`: Secret key for Cloudflare R2.
-- `CLOUDFLARE_BUCKET`: Name of the R2 bucket.
-- `CLOUDFLARE_PUBLIC_URL`: Public URL for accessing uploaded files.
+```ini
+DATABASE_URL=postgres://user:pass@db:5432/brevly
+PORT=3333
+CLOUDFLARE_ACCOUNT_ID=<your-account-id>
+CLOUDFLARE_ACCESS_KEY_ID=<key>
+CLOUDFLARE_ACCESS_KEY_SECRET=<secret>
+CLOUDFLARE_BUCKET=<bucket-name>
+PUBLIC_URL=https://<account>.r2.cloudflarestorage.com/<bucket>
+```
 
 ---
 
 ## Scripts
 
-- **Run in development mode**:
+### Local Development
 
-  ```bash
-  pnpm dev
-  ```
-
-- **Run tests**:
-
-  ```bash
-  pnpm test
-  ```
-
-- **Generate Prisma client**:
-  ```bash
-  npx prisma generate
-  ```
-
----
-
-## API Endpoints
-
-### `/links`
-
-- **POST** `/links`: Create a new shortened link.
-- **GET** `/links`: List all shortened links.
-
-### `/links/{shortUrl}`
-
-- **GET** `/links/{shortUrl}`: Redirect to the original URL.
-- **DELETE** `/links/{shortUrl}`: Delete a shortened link.
-
-### `/links/export`
-
-- **GET** `/links/export`: Export all links as a CSV file.
+- **Install deps**: `pnpm install`
+- **Dev server**: `pnpm dev` (hot reload)
+- **Generate client**: `pnpm prisma generate`
+- **Migrate dev**: `pnpm prisma migrate dev`
+- **Run tests**: `pnpm test`
 
 ---
 
 ## Docker
 
-A `Dockerfile` is included for containerized deployment. To build and run the container:
+To run the server alone:
 
-1. Build the image:
-
-   ```bash
-   docker build -t brevly-server .
-   ```
-
-2. Run the container:
-   ```bash
-   docker run -p 3333:3333 --env-file .env brevly-server
-   ```
+```bash
+docker build -t brevly-server .
+docker run -p 3333:3333 --env-file .env brevly-server
+```
 
 ---
 
-## Contributing
+### Docker Compose
 
-Contributions are welcome! Please follow the [contribution guidelines](CONTRIBUTING.md).
+```bash
+# Build and start API + DB
+docker compose up --build -d
+
+# View logs
+docker compose logs -f
+
+# Stop and remove containers
+docker compose down
+```
+
+All build steps (install, client gen, migrations) run automatically in CI or Compose.
 
 ---
 
-## License
+## API Endpoints
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+| Method | Path               | Description                       |
+| ------ | ------------------ | --------------------------------- |
+| POST   | `/links`           | Create a new shortened link       |
+| GET    | `/links`           | List all links                    |
+| GET    | `/links/:shortUrl` | Redirect to original URL          |
+| DELETE | `/links/:shortUrl` | Delete a link by slug             |
+| GET    | `/links/export`    | Export links as CSV (returns URL) |
+
+---
