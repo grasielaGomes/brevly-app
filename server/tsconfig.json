@@ -14,8 +14,9 @@
     "noEmit": false, // Emitir arquivos para o build multi-stage
     "outDir": "./dist",
     "rootDir": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     },
     "types": ["vitest/globals"]
   },
