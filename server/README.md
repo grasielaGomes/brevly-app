@@ -64,7 +64,7 @@ Works seamlessly with the [Brev.ly Web](../web/README.md) frontend for a complet
 3. **Local dev**:
    ```bash
    pnpm install
-   pnpm prisma migrate dev
+   pnpm migrate
    pnpm dev
    ```
 4. Visit `http://localhost:3333/docs` for API documentation.
@@ -93,8 +93,8 @@ PUBLIC_URL=https://<account>.r2.cloudflarestorage.com/<bucket>
 
 - **Install deps**: `pnpm install`
 - **Dev server**: `pnpm dev` (hot reload)
-- **Generate client**: `pnpm prisma generate`
-- **Migrate dev**: `pnpm prisma migrate dev`
+- **Generate client**: `pnpm generate`
+- **Migrate dev**: `pnpm migrate`
 - **Run tests**: `pnpm test`
 
 ---
