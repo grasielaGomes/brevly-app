@@ -5,12 +5,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - '3333:3333'
-    environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/brevly
+    env_file:
+      - .env
     depends_on:
       - db
-    entrypoint: |
-      sh -c "pnpm prisma migrate deploy && node ./dist/index.js"
 
   db:
     image: postgres:14
