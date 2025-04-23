@@ -1,11 +1,16 @@
-import { Card } from '@/components'
+import { Card, Info, LogoIcon } from '@/components'
 
 export const Redirect = () => {
   return (
     <Card>
-      <p className="text-lg font-semibold mb-4">
-        Você está sendo redirecionado para o link encurtado.
-      </p>
+      <Info
+        icon={<LogoIcon />}
+        title="Redirecionando..."
+        description="O link será aberto automaticamente em alguns instantes.
+        Não foi redirecionado?"
+        actionText="Acesse aqui"
+        actionHref="https://brev.ly"
+      />
     </Card>
   )
 }
