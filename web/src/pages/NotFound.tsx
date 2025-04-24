@@ -6,9 +6,10 @@ export const NotFound = () => {
       <Info
         icon={<Icon404 />}
         title="Link não encontrado"
-        description="O link que você está tentando acessar não existe, foi removido ou é uma URL inválida. Saiba mais em"
+        description="O link que você está tentando acessar não existe, foi removido ou 
+        é uma URL inválida. Saiba mais em"
         actionText="brev.ly"
-        actionHref="https://brev.ly"
+        actionHref="/"
       />
     </Card>
   )
