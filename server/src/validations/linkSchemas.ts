@@ -32,6 +32,10 @@ export const ShortUrlParamsSchema = z.object({
   shortUrl: ShortUrlParamSchema,
 })
 
+export const OriginalUrlResponseSchema = z.object({
+  originalUrl: z.string().url(),
+})
+
 export const LinkResponseSchema = z.object({
   id: z.number().int().min(1).describe('Internal record ID'),
   originalUrl: z.string().url().describe('The full, original URL'),
