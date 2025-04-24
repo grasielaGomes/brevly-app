@@ -23,7 +23,7 @@ export const LinkCard: FC<LinkCardProps> = ({ link, onCopy, onDelete }) => {
         <p className="text-gray-400 text-xs truncate">{link.originalUrl}</p>
       </div>
       <span className="text-gray-500 text-xs mr-4">
-        {link.accessCount} acessos
+        {link.accessCount ?? 0} {link.accessCount === 1 ? 'acesso' : 'acessos'}
       </span>
       <IconButton
         icon={<Copy className="h-4 w-4" />}
