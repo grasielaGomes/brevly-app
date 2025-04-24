@@ -11,15 +11,13 @@ export interface ExportCsvResult {
   filename: string
 }
 
-/**
- * Service responsible for exporting link data as CSV and uploading to a CDN (Cloudflare R2).
- * Uses the injected storage client from the plugins layer to adhere to SOLID principles.
- */
 export class ExportCsvService {
   constructor(private repository: ILinkRepository) {}
-
   /**
-   * Asynchronously generates CSV data in batches to avoid high memory usage.
+   * Generates CSV data from the link repository.
+   * - Yields each row as a string.
+   * - Uses a batch size to limit memory usage.
+   * @returns An async generator yielding CSV rows.
    */
   private async *generateCsv(): AsyncGenerator<string> {
     yield '"originalUrl","shortUrl","accessCount","createdAt"\n'
