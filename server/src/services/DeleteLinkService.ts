@@ -1,9 +1,6 @@
 import { ILinkRepository } from '@/domain/repositories/ILinkRepository'
 import { RecordNotFoundError } from '@/errors'
 
-/**
- * Service responsible for deleting a link by its ID.
- */
 export class DeleteLinkService {
   constructor(private repository: ILinkRepository) {}
 
