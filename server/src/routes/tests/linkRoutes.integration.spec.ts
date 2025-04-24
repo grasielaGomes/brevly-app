@@ -8,12 +8,9 @@ let app: FastifyInstance
 let request: ReturnType<typeof supertest>
 
 beforeAll(async () => {
-  // Apply migrations and reset test data
   await prisma.$executeRawUnsafe(
     `TRUNCATE TABLE "Link" RESTART IDENTITY CASCADE;`
   )
-
-  // Build and start the Fastify server on an ephemeral port
   app = await buildServer()
   await app.listen({ port: 0 })
   request = supertest(app.server)
@@ -45,10 +42,12 @@ describe('Link Routes Integration', () => {
     expect(res.body.length).toBeGreaterThan(0)
   })
 
-  it('should redirect to original URL', async () => {
+  it('should get original URL', async () => {
     const res = await request.get(`/links/${createdShortUrl}`)
-    expect(res.status).toBe(302)
-    expect(res.header.location).toBe('https://example.com')
+    expect(res.status).toBe(200)
+    expect(res.body).toMatchObject({
+      originalUrl: 'https://example.com',
+    })
   })
 
   it('should delete a link by shortUrl', async () => {
@@ -62,7 +61,6 @@ describe('Link Routes Integration', () => {
   })
 
   it('should export links as CSV', async () => {
-    // Create a couple of links for export
     await request
       .post('/links')
       .send({ originalUrl: 'https://a.com', shortUrl: 'a1' })
@@ -74,7 +72,6 @@ describe('Link Routes Integration', () => {
     expect(res.status).toBe(200)
     expect(typeof res.body.url).toBe('string')
     expect(typeof res.body.filename).toBe('string')
-    // Optionally, ensure URL looks valid
     expect(res.body.url).toContain(res.body.filename)
   })
 })
