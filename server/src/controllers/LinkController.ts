@@ -39,13 +39,13 @@ export class LinkController {
     return reply.code(204).send()
   }
 
-  public redirect = async (
+  public getOriginalUrl = async (
     request: FastifyRequest<{ Params: ShortUrlParams }>,
     reply: FastifyReply
   ) => {
     const { shortUrl } = request.params
     const link = await this.getSvc.execute(shortUrl)
-    return reply.redirect(link.originalUrl)
+    return reply.send({ originalUrl: link.originalUrl })
   }
 
   public exportCsv = async (_: FastifyRequest, reply: FastifyReply) => {
