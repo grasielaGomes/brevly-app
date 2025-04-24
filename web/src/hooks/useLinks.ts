@@ -1,4 +1,4 @@
-import { Link } from '@/interfaces/links'
+import { ILink } from '@/interfaces/link'
 import { useState, useEffect, useCallback } from 'react'
 const API = import.meta.env.VITE_API_URL
 
@@ -8,7 +8,7 @@ interface ExportResponse {
 }
 
 export function useLinks() {
-  const [links, setLinks] = useState<Link[]>([])
+  const [links, setLinks] = useState<ILink[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const fetchLinks = useCallback(async () => {
@@ -16,7 +16,7 @@ export function useLinks() {
     try {
       const res = await fetch(`${API}/links`)
       if (!res.ok) throw new Error('Failed to fetch links')
-      const data: Link[] = await res.json()
+      const data: ILink[] = await res.json()
       setLinks(data)
     } catch (err) {
       console.error(err)
@@ -24,10 +24,6 @@ export function useLinks() {
       setIsLoading(false)
     }
   }, [])
-
-  useEffect(() => {
-    void fetchLinks()
-  }, [fetchLinks])
 
   const createLink = useCallback(
     async ({
@@ -46,7 +42,7 @@ export function useLinks() {
         })
         const data = await res.json()
         if (!res.ok) throw new Error(data.message || 'Failed to create link')
-        const newLink: Link = await res.json()
+        const newLink: ILink = await res.json()
         setLinks((prev) => [newLink, ...prev])
       } catch (err) {
         console.error(err)
@@ -90,6 +86,10 @@ export function useLinks() {
     const url = `${window.location.origin}/${slug}`
     navigator.clipboard.writeText(url).catch(console.error)
   }, [])
+
+  useEffect(() => {
+    void fetchLinks()
+  }, [fetchLinks])
 
   return {
     links,
