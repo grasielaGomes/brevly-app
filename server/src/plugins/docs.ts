@@ -9,6 +9,7 @@ import {
   ErrorResponseSchema,
   ExportCsvResponseSchema,
   OriginalUrlResponseSchema,
+  LinkResponseSchema,
 } from '@/validations/linkSchemas'
 
 export const docsPlugin: FastifyPluginAsync = async (app) => {
@@ -32,7 +33,7 @@ export const docsPlugin: FastifyPluginAsync = async (app) => {
           responses: {
             '201': {
               description: 'Link created successfully',
-              content: { 'application/json': { schema: CreateLinkSchema } },
+              content: { 'application/json': { schema: LinkResponseSchema } },
             },
             '400': {
               description: 'Invalid request body',
