@@ -1,13 +1,18 @@
 import Fastify from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { corsPlugin } from '@/plugins/cors'
 import { docsPlugin } from '@/plugins/docs'
 import { linkRoutes } from '@/routes/linkRoutes'
+import fastifyCors from '@fastify/cors'
 
 export async function buildServer() {
   const app = Fastify({ logger: true }).withTypeProvider<ZodTypeProvider>()
 
-  await app.register(corsPlugin)
+  await app.register(fastifyCors, {
+    origin: '*',
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+
   await app.register(docsPlugin)
   await app.register(linkRoutes)
 
