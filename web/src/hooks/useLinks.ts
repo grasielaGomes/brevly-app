@@ -42,8 +42,7 @@ export function useLinks() {
         })
         const data = await res.json()
         if (!res.ok) throw new Error(data.message || 'Failed to create link')
-        const newLink: ILink = await res.json()
-        setLinks((prev) => [newLink, ...prev])
+        setLinks((prev) => [data, ...prev])
       } catch (err) {
         console.error(err)
         throw err
