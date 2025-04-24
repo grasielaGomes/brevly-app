@@ -5,6 +5,7 @@ import {
   CreateLinkSchema,
   ShortUrlParamsSchema,
   ListLinksResponseSchema,
+  LinkResponseSchema,
   ExportCsvResponseSchema,
   OriginalUrlResponseSchema,
 } from '@/validations/linkSchemas'
@@ -17,7 +18,7 @@ export async function linkRoutes(app: FastifyInstance) {
     {
       schema: transformZodSchema({
         body: CreateLinkSchema,
-        response: { 201: CreateLinkSchema },
+        response: { 201: LinkResponseSchema },
       }),
     },
     controller.create
