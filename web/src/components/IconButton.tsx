@@ -13,9 +13,9 @@ export const IconButton: FC<IconButtonProps> = ({
   ...props
 }) => {
   const baseStyles =
-    'inline-flex items-center justify-center transition-all duration-200 cursor-pointer'
+    'inline-flex items-center justify-center transition-all duration-200 '
   const disabledStyles = disabled ? 'opacity-50 cursor-not-allowed' : ''
-  const hoverStyles = !disabled ? 'hover:border-blue-base' : ''
+  const hoverStyles = !disabled ? 'cursor-pointer hover:border-blue-base' : ''
 
   const classes = clsx(
     baseStyles,
