@@ -39,7 +39,7 @@ export const Button: FC<ButtonProps> = ({
       {...props}
     >
       {variant === 'secondary' && icon && (
-        <span className="inline-flex items-center justify-center h-4 w-4 mr-2">
+        <span className="inline-flex items-center justify-center h-4 w-4 mr-1">
           {icon}
         </span>
       )}
