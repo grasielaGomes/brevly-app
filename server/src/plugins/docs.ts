@@ -8,6 +8,7 @@ import {
   ListLinksResponseSchema,
   ErrorResponseSchema,
   ExportCsvResponseSchema,
+  OriginalUrlResponseSchema,
 } from '@/validations/linkSchemas'
 
 export const docsPlugin: FastifyPluginAsync = async (app) => {
@@ -68,10 +69,15 @@ export const docsPlugin: FastifyPluginAsync = async (app) => {
 
       '/links/{shortUrl}': {
         get: {
-          summary: 'Redirect to original URL',
+          summary: 'Get original URL',
           parameters: [ShortUrlParamSchema],
           responses: {
-            '302': { description: 'Redirection to original URL' },
+            '200': {
+              description: 'Original URL found',
+              content: {
+                'application/json': { schema: OriginalUrlResponseSchema },
+              },
+            },
             '404': { description: 'Short URL not found' },
           },
         },
