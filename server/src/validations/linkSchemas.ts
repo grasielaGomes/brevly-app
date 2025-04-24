@@ -1,9 +1,5 @@
 import { z } from 'zod'
 
-/**
- * Schema for creating a new link.
- * Validates the request body for POST /links.
- */
 export const CreateLinkSchema = z.object({
   originalUrl: z.string().url('Invalid URL format'),
   shortUrl: z
@@ -36,7 +32,18 @@ export const ShortUrlParamsSchema = z.object({
   shortUrl: ShortUrlParamSchema,
 })
 
-export const ListLinksResponseSchema = z.array(CreateLinkSchema).openapi({
+export const LinkResponseSchema = z.object({
+  id: z.number().int().min(1).describe('Internal record ID'),
+  originalUrl: z.string().url().describe('The full, original URL'),
+  shortUrl: z.string().min(1).describe('The custom slug'),
+  accessCount: z
+    .number()
+    .int()
+    .nonnegative()
+    .describe('How many times it was followed'),
+})
+
+export const ListLinksResponseSchema = z.array(LinkResponseSchema).openapi({
   description: 'Array of shortened links',
 })
 
