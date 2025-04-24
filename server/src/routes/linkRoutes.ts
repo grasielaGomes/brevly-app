@@ -6,6 +6,7 @@ import {
   ShortUrlParamsSchema,
   ListLinksResponseSchema,
   ExportCsvResponseSchema,
+  OriginalUrlResponseSchema,
 } from '@/validations/linkSchemas'
 
 export async function linkRoutes(app: FastifyInstance) {
@@ -47,9 +48,10 @@ export async function linkRoutes(app: FastifyInstance) {
     {
       schema: transformZodSchema({
         params: ShortUrlParamsSchema,
+        response: { 200: OriginalUrlResponseSchema },
       }),
     },
-    controller.redirect
+    controller.getOriginalUrl
   )
 
   app.get(
