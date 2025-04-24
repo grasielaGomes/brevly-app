@@ -21,13 +21,14 @@ export const Button: FC<ButtonProps> = ({
     primary: clsx(
       'h-12 px-20 rounded-md font-500 text-sm transition-all duration-200',
       'bg-blue-base text-white',
-      !disabled && 'hover:bg-blue-dark',
+      !disabled && 'cursor-pointer hover:bg-blue-dark',
       disabled && 'bg-blue-base/50 text-white cursor-not-allowed'
     ),
     secondary: clsx(
-      'h-9 px-2 rounded-sm font-500 text-xs transition-all duration-200',
+      'inline-flex items-center h-9 px-2 rounded-sm font-500 text-xs transition-all duration-200',
       'bg-gray-200 text-gray-500',
-      !disabled && 'hover:border-blue-base border border-transparent',
+      !disabled &&
+        'cursor-pointer hover:border-blue-base border border-transparent',
       disabled && 'opacity-50 cursor-not-allowed'
     ),
   }
