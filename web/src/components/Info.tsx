@@ -1,4 +1,5 @@
 import { FC, ReactNode } from 'react'
+import { Link } from 'react-router'
 
 export interface InfoProps {
   icon?: ReactNode
@@ -22,9 +23,9 @@ export const Info: FC<InfoProps> = ({
       <p className="text-sm leading-relaxed whitespace-pre-line">
         {description}
         {actionText && actionHref && (
-          <a href={actionHref} className="text-blue-base ml-1">
+          <Link to={actionHref} className="text-blue-base ml-1">
             {actionText}
-          </a>
+          </Link>
         )}
       </p>
     </div>
