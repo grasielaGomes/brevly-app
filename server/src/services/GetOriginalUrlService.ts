@@ -2,9 +2,6 @@ import { ILinkRepository } from '@/domain/repositories/ILinkRepository'
 import { Link } from '@/domain/models/Link'
 import { ApplicationError } from '@/errors/ApplicationError'
 
-/**
- * Service responsible for retrieving the original URL and incrementing access count.
- */
 export class GetOriginalUrlService {
   constructor(private repository: ILinkRepository) {}
 
