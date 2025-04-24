@@ -10,6 +10,10 @@ export const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: '/redirect', element: <Redirect /> },
     ],
-    errorElement: <NotFound />,
+    errorElement: (
+      <MainLayout>
+        <NotFound />
+      </MainLayout>
+    ),
   },
 ])
