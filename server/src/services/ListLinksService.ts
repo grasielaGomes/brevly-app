@@ -1,9 +1,6 @@
 import { ILinkRepository } from '@/domain/repositories/ILinkRepository'
 import { Link } from '@/domain/models/Link'
 
-/**
- * Service responsible for listing all shortened links.
- */
 export class ListLinksService {
   constructor(private repository: ILinkRepository) {}
 
