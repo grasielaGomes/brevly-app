@@ -1,4 +1,4 @@
-export interface Link {
+export interface ILink {
   id: number
   originalUrl: string
   shortUrl: string
