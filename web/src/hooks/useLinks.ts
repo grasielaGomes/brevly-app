@@ -68,16 +68,13 @@ export function useLinks() {
   }, [])
 
   const exportCsv = useCallback(async () => {
-    setIsLoading(true)
     try {
       const res = await fetch(`${API}/links/export`)
-      if (!res.ok) throw new Error('Failed to export CSV')
-      const data: ExportResponse = await res.json()
-      window.open(data.url, '_blank')
+      if (!res.ok) throw new Error('Falha ao gerar CSV')
+      const { url }: ExportResponse = await res.json()
+      window.open(url, '_blank', 'noopener,noreferrer')
     } catch (err) {
       console.error(err)
-    } finally {
-      setIsLoading(false)
     }
   }, [])
 
