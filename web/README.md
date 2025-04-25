@@ -1,54 +1,71 @@
-# React + TypeScript + Vite
+# Brev.ly – Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the **frontend** SPA for the Brev.ly URL shortener, built with React, Vite and TailwindCSS.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Overview](#overview)
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Scripts](#scripts)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Overview
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+The Brev.ly Web app provides:
+
+- A form to create new short links
+- Real-time list, delete and copy of slugs
+- CSV export of all links
+- Dynamic redirect screen for slugs
+- Responsive, mobile-first layout matching the Figma mock
+
+---
+
+## Features
+
+- **Link Creation** with Zod validation
+- **Listing & Deletion** of links
+- **Copy to Clipboard** for short URLs
+- **CSV Export** in a new tab
+- **Redirect Page** at `/:shortUrl`
+- **Error Handling** and loading states
+- **Reusable Components** (Button, Input, Card, Header, etc.)
+
+---
+
+## Requirements
+
+- **Node.js** ≥ 18
+- **pnpm** ≥ 6
+- **Vite** ≥ 4
+- **React** ≥ 19
+- **TailwindCSS** ≥ 4
+
+---
+
+## Installation
+
+```bash
+git clone https://github.com/grasielaGomes/brevly-app.git
+cd brevly-app/web
+pnpm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Configuration
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Create a .env in web/:
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+VITE_API_URL=http://localhost:3333
+```
+
+## Scripts
+
+```bash
+Dev: pnpm dev
+Build: pnpm build
 ```
