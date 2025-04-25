@@ -1,7 +1,15 @@
 import { useState, FormEvent } from 'react'
 import { DownloadSimple, Warning } from '@phosphor-icons/react'
 import { CreateLinkSchema, CreateLinkInput } from '@/validations/linkSchemas'
-import { Button, LinkCard, Input, Card, Logo } from '@/components'
+import {
+  Button,
+  LinkCard,
+  Input,
+  Card,
+  Logo,
+  Spinner,
+  EmptyList,
+} from '@/components'
 
 import { useLinks } from '@/hooks/useLinks'
 
@@ -14,6 +22,8 @@ export const Home = () => {
   const [fieldError, setFieldError] = useState<
     Partial<Record<keyof CreateLinkInput, string>>
   >({})
+
+  const hasLinks = links.length > 0
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -89,15 +99,20 @@ export const Home = () => {
 
         <Card className="sm:max-w-full">
           <div className="flex items-center justify-between mb-4">
-            <h6 className="text-lg font-bold">Meus links</h6>
+            <div className="flex items-center gap-2">
+              <h6 className="text-lg font-bold">Meus links</h6>
+              {isLoading && <Spinner />}
+            </div>
             <Button
               variant="secondary"
               icon={<DownloadSimple className="h-4 w-4" />}
               onClick={exportCsv}
+              disabled={!hasLinks || isLoading}
             >
               Baixar CSV
             </Button>
           </div>
+          {!hasLinks && <EmptyList />}
           {links.map((link) => (
             <LinkCard
               key={link.id}
