@@ -72,7 +72,7 @@ export function useLinks() {
       const res = await fetch(`${API}/links/export`)
       if (!res.ok) throw new Error('Falha ao gerar CSV')
       const { url }: ExportResponse = await res.json()
-      window.open(url, '_blank', 'noopener,noreferrer')
+      window.open(url, '_self')
     } catch (err) {
       console.error(err)
     }
@@ -84,7 +84,16 @@ export function useLinks() {
   }, [])
 
   useEffect(() => {
-    void fetchLinks()
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        void fetchLinks()
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
   }, [fetchLinks])
 
   return {
