@@ -17,6 +17,8 @@ export const LinkCard: FC<LinkCardProps> = ({ link, onCopy, onDelete }) => {
         <Link
           to={`/${link.shortUrl}`}
           className="text-blue-base text-sm font-medium"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           brev.ly/{link.shortUrl}
         </Link>
