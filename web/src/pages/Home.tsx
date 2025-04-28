@@ -58,7 +58,7 @@ export const Home = () => {
         <Logo />
       </div>
       <div className="flex flex-col gap-4 justify-center w-full md:flex-row">
-        <Card className="md:max-w-[380px]">
+        <Card className="max-h-fit md:max-w-[380px]">
           <form onSubmit={handleSubmit} className="space-y-4">
             <h6 className="text-lg font-bold text-left">Novo link</h6>
             <Input
@@ -98,7 +98,7 @@ export const Home = () => {
         </Card>
 
         <Card className="sm:max-w-full">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-4 ">
             <div className="flex items-center gap-2">
               <h6 className="text-lg font-bold">Meus links</h6>
               {isLoading && <Spinner />}
@@ -113,14 +113,16 @@ export const Home = () => {
             </Button>
           </div>
           {!hasLinks && <EmptyList />}
-          {links.map((link) => (
-            <LinkCard
-              key={link.id}
-              link={link}
-              onCopy={copyLink}
-              onDelete={deleteLink}
-            />
-          ))}
+          <div className="max-h-[400px] overflow-y-auto">
+            {links.map((link) => (
+              <LinkCard
+                key={link.id}
+                link={link}
+                onCopy={copyLink}
+                onDelete={deleteLink}
+              />
+            ))}
+          </div>
         </Card>
       </div>
     </div>
